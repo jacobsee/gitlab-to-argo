@@ -1,0 +1,6 @@
+---
+- name: Print Message
+  hosts: localhost
+  tasks:
+  - debug:
+      msg: "We are inside of an Ansible playbook!"
