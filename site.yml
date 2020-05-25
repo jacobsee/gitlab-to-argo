@@ -1,14 +1,12 @@
 ---
-- name: Print message & set data
+- name: Generate Argo apps from GitLab projects
   hosts: local
   tasks:
+  - uri:
+      url: "{{ gitlab_base_url }}/api/v4/groups/{{ gitlab_group }}/projects?include_subgroups=true"
+      headers:
+        Private-Token: "{{ gitlab_private_token }}"
+    register: gitlab_groups
   - debug:
-      msg: "We are inside of an Ansible playbook!"
-  - name: Set some data
-    set_fact:
-      some_fact: some_fact_data
-- name: Demonstrate fact persistence
-  hosts: local
-  tasks:
-    - debug:
-        msg: "The data {{ some_fact }} was retrieved from a different play"
+      msg: "{{ item }}"
+    loop: "{{ gitlab_groups.json }}"
