@@ -1,6 +1,14 @@
 ---
-- name: Print Message
-  hosts: localhost
+- name: Print message & set data
+  hosts: local
   tasks:
   - debug:
       msg: "We are inside of an Ansible playbook!"
+  - name: Set some data
+    set_fact:
+      some_fact: some_fact_data
+- name: Demonstrate fact persistence
+  hosts: local
+  tasks:
+    - debug:
+        msg: "The data {{ some_fact }} was retrieved from a different play"
